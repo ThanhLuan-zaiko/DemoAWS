@@ -1,0 +1,25 @@
+bdu_backend:
+  build: { context: ./backend }
+  container_name: bdu_backend
+  environment:
+    APP_PORT: 8080
+    DB_URL: mysql+aiomysql://root:rootpassword@bdu_db:3306/bdu_inventory?charset=utf8mb4
+    # dùng proxy Nginx nên có thể để CORS ORIGINS mặc định
+    CORS_ORIGINS: ${CORS_ORIGINS:-*}
+  depends_on:
+    bdu_db:
+      condition: service_healthy
+  ports:
+    - "8081:8080" # http://localhost:8081
+  restart: unless-stopped
+bdu_frontend:
+  build: { context: ./frontend }
+  container_name: bdu_frontend
+  depends_on:
+    - bdu_backend
+  ports:
+    - "8082:80" # http://localhost:8082
+  restart: unless-stopped
+
+volumes:
+  bdu_db_data:
