@@ -12,7 +12,7 @@ class ProductOut(BaseModel):
     name: str
     unit_price: float
     stock: int
-    created_at: str | None = None
+    created_at: datetime | None = None
     model_config = ConfigDict(from_attributes=True)
 
     @field_serializer('created_at')
@@ -29,7 +29,7 @@ class SupplierOut(BaseModel):
     name: str
     email: str | None = None
     phone: str | None = None
-    created_at: str | None = None
+    created_at: datetime | None = None
     model_config = ConfigDict(from_attributes=True)
 
     @field_serializer('created_at')
@@ -48,7 +48,7 @@ class MoveOut(BaseModel):
     quantity: int
     move_type: str
     note: str | None = None
-    created_at: str | None = None
+    created_at: datetime | None = None
     model_config = ConfigDict(from_attributes=True)
 
     @field_serializer('created_at')
