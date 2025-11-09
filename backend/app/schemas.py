@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, field_serializer
+from datetime import datetime
 
 class ProductIn(BaseModel):
     sku: str
@@ -14,6 +15,10 @@ class ProductOut(BaseModel):
     created_at: str | None = None
     model_config = ConfigDict(from_attributes=True)
 
+    @field_serializer('created_at')
+    def serialize_created_at(self, value: datetime | None) -> str | None:
+        return value.isoformat() if value else None
+
 class SupplierIn(BaseModel):
     name: str
     email: str | None = None
@@ -26,6 +31,10 @@ class SupplierOut(BaseModel):
     phone: str | None = None
     created_at: str | None = None
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer('created_at')
+    def serialize_created_at(self, value: datetime | None) -> str | None:
+        return value.isoformat() if value else None
 
 class MoveIn(BaseModel):
     product_id: int
@@ -41,3 +50,7 @@ class MoveOut(BaseModel):
     note: str | None = None
     created_at: str | None = None
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer('created_at')
+    def serialize_created_at(self, value: datetime | None) -> str | None:
+        return value.isoformat() if value else None
